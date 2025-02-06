@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=JetUML
+Exec=/home/francois/.local/bin/JetUML/JetUML
+Icon=/home/francois/.local/bin/JetUML/jet.png
+Type=Application
+Categories=Utility;
+Terminal=false
+
+

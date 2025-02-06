@@ -1,3 +1,9 @@
+create the .desktop file so it can be found easily:
+
+```
+mv ./JetUML.desktop /home/francois/.local/share/applications/JetUML.desktop
+```
+
 You must install java and the javafx jar and put them in /usr/lib/jvm
 
 javafx-sdk-23 is a softlink to the actual 23.x.y file
