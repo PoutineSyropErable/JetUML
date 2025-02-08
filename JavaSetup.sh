@@ -4,9 +4,9 @@
 JAVA_DIR="$HOME/.local/java"
 JDK_DIR="$JAVA_DIR/java23-openjdk"
 
-# JetUML name and url, decomment if you want to redownload
-# JETUML_JAR="$JAVA_DIR/JetUML-3.8.jar"
-# JETUML_URL="https://github.com/prmr/JetUML/releases/download/v3.8/JetUML-3.8.jar"
+# JetUML file name and url
+JETUML_JAR="$JAVA_DIR/JetUML-3.8.jar"
+JETUML_URL="https://github.com/prmr/JetUML/releases/download/v3.8/JetUML-3.8.jar"
 
 function downloadJetUML() {
 	# Download JetUML JAR
