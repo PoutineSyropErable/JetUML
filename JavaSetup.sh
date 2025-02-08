@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -euo pipefail # Enable strict error handling
+# This will cause exit if any command fails, like with regular programming language
 
 # Set installation directories
 JAVA_DIR="$HOME/.local/java"
