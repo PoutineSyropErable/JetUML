@@ -1,14 +1,18 @@
-git clone https://github.com/PoutineSyropErable/JetUML ~/.local/bin/JetUML
-
-create the .desktop file so it can be found easily:
-
 ```
+git clone https://github.com/PoutineSyropErable/JetUML ~/.local/java
+cd ~/JetUML/java
+./JavaSetup.sh
 mv ./JetUML.desktop /home/francois/.local/share/applications/JetUML.desktop
 ```
 
-You must install java and the javafx jar and put them in /usr/lib/jvm
+the .desktop file is to launch it with a normal launcher. For linux only, figure out its equivalent on mac
 
-javafx-sdk-23 is a softlink to the actual 23.x.y file. Here's a dir tree of depth 2
+```
+
+```
+
+--You must install java and the javafx jar and put them in /usr/lib/jvm--
+Update (I download it for you)
 
 javafx-sdk-23
 ├── legal
