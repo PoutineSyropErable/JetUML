@@ -8,6 +8,23 @@ JDK_DIR="$JAVA_DIR/java23-openjdk"
 JETUML_JAR="$JAVA_DIR/JetUML-3.8.jar"
 JETUML_URL="https://github.com/prmr/JetUML/releases/download/v3.8/JetUML-3.8.jar"
 
+# Ensure curl is installed
+curl --version &>/dev/null || {
+	echo "curl not found. Installing..."
+	sudo apt install -y curl 2>/dev/null ||
+		sudo pacman -S curl 2>/dev/null ||
+		sudo dnf install -y curl 2>/dev/null ||
+		sudo apk add curl 2>/dev/null ||
+		brew install curl 2>/dev/null || {
+		echo "can't get curl"
+		exit 1
+	}
+}
+
+echo ""
+echo "Curl is installed."
+echo ""
+
 function downloadJetUML() {
 	# Download JetUML JAR
 	echo "Downloading JetUML 3.8..."
