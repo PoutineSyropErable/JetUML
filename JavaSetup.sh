@@ -101,10 +101,16 @@ declare -A JDK_URLS=(
 	["Mac_x86_64"]="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_macos-x64_bin.tar.gz"
 )
 
-# Getting unzip so it can work:
-unzip -v || {
+unzip -v &>/dev/null || {
 	echo "unzip not found. Installing..."
-	sudo apt install -y unzip || sudo pacman -S unzip || sudo dnf install -y unzip || sudo apk add unzip || brew install unzip
+	sudo apt install -y unzip 2>/dev/null ||
+		sudo pacman -S unzip 2>/dev/null ||
+		sudo dnf install -y unzip 2>/dev/null ||
+		sudo apk add unzip 2>/dev/null ||
+		brew install unzip 2>/dev/null || {
+		echo "can't get unzip"
+		exit 1
+	}
 }
 
 # Download JavaFX (goes in ~/.local/java)
@@ -113,6 +119,7 @@ if [[ -n "$JAVAFX_URL" ]]; then
 	FILE_NAME="${JAVAFX_URL##*/}"
 	FILE_PATH="$JAVA_DIR/$FILE_NAME"
 
+	echo ""
 	echo "Downloading JavaFX 23.0.2 for $OS ($ARCH)..."
 	curl -L -o "$FILE_PATH" "$JAVAFX_URL"
 
@@ -122,7 +129,9 @@ if [[ -n "$JAVAFX_URL" ]]; then
 		exit 1
 	fi
 
+	echo ""
 	echo "Extracting JavaFX..."
+	echo ""
 	unzip -q "$FILE_PATH" -d "$JAVA_DIR"
 	rm "$FILE_PATH"
 	echo "JavaFX installed in $JAVA_DIR."
@@ -136,11 +145,14 @@ if [[ -n "$JDK_URL" ]]; then
 	FILE_NAME="${JDK_URL##*/}"
 	FILE_PATH="$JDK_DIR/$FILE_NAME"
 
+	echo ""
 	echo "Downloading OpenJDK 23 for $OS ($ARCH)..."
 	curl -L -o "$FILE_PATH" "$JDK_URL"
 
 	if [[ $FILE_NAME == *.tar.gz ]]; then
+		echo ""
 		echo "Extracting OpenJDK..."
+		echo ""
 		mkdir -p "$JDK_DIR"
 		tar -xzf "$FILE_PATH" -C "$JDK_DIR" --strip-components=1
 		rm "$FILE_PATH"
