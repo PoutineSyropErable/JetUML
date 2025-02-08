@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set -euo pipefail # Enable strict error handling
+
 # Set installation directories
 JAVA_DIR="$HOME/.local/java"
 JDK_DIR="$JAVA_DIR/java23-openjdk"
@@ -129,6 +131,10 @@ unzip -v &>/dev/null || {
 		exit 1
 	}
 }
+
+echo ""
+echo "Unzip is installed."
+echo ""
 
 # Download JavaFX (goes in ~/.local/java)
 JAVAFX_URL=${JAVAFX_URLS["${OS}_${ARCH}"]}
