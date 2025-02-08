@@ -2,43 +2,54 @@
 git clone https://github.com/PoutineSyropErable/JetUML ~/.local/java
 cd ~/JetUML/java
 ./JavaSetup.sh
+```
+
+the .desktop file is to launch it with a normal launche ( For linux only)
+
+```
 mv ./JetUML.desktop /home/francois/.local/share/applications/JetUML.desktop
 ```
 
-the .desktop file is to launch it with a normal launcher. For linux only, figure out its equivalent on mac
+on mac, do (Experimental, not tested)
 
+```
+./create_mac_launcher.sh
+```
+
+then to be able to just use the JetUML terminal command, you need to add ~/.local/java to the path.
+To do so, you must modify the rc file of your shell.
+
+Automatic way:
+
+```
+./setupEnvVar.sh
 ```
 
 ```
+~/.config/fish/config.fish
+~/.zshrc
+~/.bashrc
+```
 
---You must install java and the javafx jar and put them in /usr/lib/jvm--
-Update (I download it for you)
+and add:
 
-javafx-sdk-23
-├── legal
-│   ├── javafx.base
-│   ├── javafx.controls
-│   ├── javafx.fxml
-│   ├── javafx.graphics
-│   ├── javafx.media
-│   ├── javafx.swing
-│   └── javafx.web
-└── lib
+```
+export PATH="$HOME/.local/java:$PATH"
+```
 
-java-23-openjdk
-├── bin
-├── conf -> /etc/java-openjdk
-├── demo
-│   ├── jfc
-│   └── nbproject
-├── include
-│   └── linux
-├── jmods
-├── legal -> /usr/share/licenses/java-openjdk
-├── lib
-│   ├── jfr
-│   ├── security
-│   └── server
-└── man -> /usr/share/man
+Optional, but should be done:
+You should also add these environment variable to your shell permanently by adding:
 
-25 directories
+```
+# Set Java Home
+export JAVA_HOME="$HOME/.local/java/java23-openjdk"
+
+# Add Java binaries to PATH
+export PATH="$JAVA_HOME/bin:$PATH"
+
+# Set JavaFX module path
+export PATH_TO_FX="$HOME/.local/java/javafx-sdk-23/lib"
+
+# Add JavaFX binaries to PATH (optional, but helps some setups)
+export PATH="$PATH_TO_FX:$PATH"
+```
