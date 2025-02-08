@@ -101,6 +101,12 @@ declare -A JDK_URLS=(
 	["Mac_x86_64"]="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_macos-x64_bin.tar.gz"
 )
 
+# Getting unzip so it can work:
+unzip -v || {
+	echo "unzip not found. Installing..."
+	sudo apt install -y unzip || sudo pacman -S unzip || sudo dnf install -y unzip || sudo apk add unzip || brew install unzip
+}
+
 # Download JavaFX (goes in ~/.local/java)
 JAVAFX_URL=${JAVAFX_URLS["${OS}_${ARCH}"]}
 if [[ -n "$JAVAFX_URL" ]]; then
