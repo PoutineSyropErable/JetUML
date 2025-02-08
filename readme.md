@@ -1,6 +1,6 @@
 ```
 git clone https://github.com/PoutineSyropErable/JetUML ~/.local/java
-cd ~/JetUML/java
+cd ~/.local/java
 ./JavaSetup.sh
 ```
 
