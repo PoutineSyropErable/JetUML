@@ -19,13 +19,14 @@ on mac, do (Experimental, not tested)
 then to be able to just use the JetUML terminal command, you need to add ~/.local/java to the path permanently.
 To do so, you must modify the rc file of your shell. (It's executed every startup)
 
-Automatic way:
+**Automatic way:**
 
 ```
 ./setupEnvVar.sh
 ```
 
-Manual Way: Depending on your shell (bash, zsh, fish), find it's run config file
+**Manual Way:**
+Depending on your shell (bash, zsh, fish), find it's run config file
 (And you know which shell it is and where's it's config file is if it's a different one)
 
 here's the path to the shell rc files
