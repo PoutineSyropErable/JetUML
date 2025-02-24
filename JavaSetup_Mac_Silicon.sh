@@ -10,7 +10,7 @@ mkdir -p "$JDK_DIR"
 
 printf "HOME is : ($HOME)"
 
-cd JAVA_DIR || exit 3
+cd "$JAVA_DIR" || exit 3
 echo ">pwd"
 pwd
 echo ">ls"
