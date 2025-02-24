@@ -3,6 +3,12 @@
 #!/bin/bash
 echo "🔍 Running with shell: $SHELL"
 echo "🔍 Bash version: $(bash --version)"
+echo "🔍 Current process: $$"
+echo "🔍 Parent process: $(ps -o ppid= -p $$)"
+echo "🔍 Process tree:"
+ps -fp $$ # Show current process info
+
+exit 0
 
 set -euo pipefail # Enable strict error handling
 # This will cause exit if any command fails, like with regular programming language
