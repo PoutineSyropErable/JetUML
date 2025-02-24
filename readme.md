@@ -2,7 +2,7 @@
 
 On a good system, like arch-based where everything is up to date and not dinosaur old:
 
-```
+```bash
 git clone https://github.com/PoutineSyropErable/JetUML ~/.local/java
 cd ~/.local/java
 ./JavaSetup.sh # Won't work with older bash, like default on mac.
@@ -10,7 +10,7 @@ cd ~/.local/java
 
 On Mac:
 
-```
+```bash
 # Start by getting a newer version of bash:
 brew install bash
 # Then find bash location:
@@ -27,19 +27,28 @@ then figure out how to install a newer version of bash on your machine, compile 
 
 Or, just modify my script by commenting out the "declare -A" line, and then just hardcode the variable for the url of jetuml and javafx
 
+**New option**:
+On mac, you can just use the hardcoded script:
+
+```bash
+./JavaSetup_Mac_Intel.sh
+# or
+./JavaSetup_Mac_Silicon.sh
+```
+
 ---
 
 # Making a GUI App Launcer
 
 the .desktop file is to launch it with a normal launche ( For linux only)
 
-```
+```bash
 mv ./JetUML.desktop $HOME/.local/share/applications/JetUML.desktop
 ```
 
 on mac, do (Experimental, not tested)
 
-```
+```bash
 ./create_mac_launcher.sh
 ```
 
@@ -52,7 +61,7 @@ To do so, you must modify the rc file of your shell. (It's executed every startu
 
 **Automatic way:**
 
-```
+```bash
 ./setupEnvVar.sh
 ```
 
@@ -62,7 +71,7 @@ Depending on your shell (bash, zsh, fish), find it's (run config/RC) file
 
 here's the path to the shell rc files
 
-```
+```bash
 ~/.config/fish/config.fish
 ~/.zshrc
 ~/.bashrc
@@ -70,7 +79,7 @@ here's the path to the shell rc files
 
 and add:
 
-```
+```bash
 export PATH="$HOME/.local/java:$PATH"
 ```
 
@@ -79,7 +88,7 @@ export PATH="$HOME/.local/java:$PATH"
 Optional, but should be done:
 You should also add these environment variable to your shell permanently by adding:
 
-```
+```bash
 # Set Java Home
 export JAVA_HOME="$HOME/.local/java/java-23-openjdk"
 
@@ -103,7 +112,7 @@ Then you need to source your shell. Here's different way ranked from best and ha
 
 It should work now, just do
 
-```
+```bash
 JetUML
 ```
 
@@ -117,7 +126,7 @@ using your prefered gui app launcher. (Probably the one integrated into your os)
 
 you can also add
 
-```
+```bash
 alias jetuml="JetUML"
 ```
 
