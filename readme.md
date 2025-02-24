@@ -118,6 +118,9 @@ you can use the general script that will detect your os and cpu architecture and
 ```bash
 ./JavaSetup_NewBash.sh
 # Won't work with older bash, like default on mac.
+# This was previously named ./JavaSetup.sh
+# and ./JavaSetup.sh was called ./JavaSetup_BackwardCompatible.sh
+# Well, before that, the backward compatible version didn't even exist
 ```
 
 **New option**:
