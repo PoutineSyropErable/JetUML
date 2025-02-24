@@ -1,56 +1,12 @@
 # Initial download and setup
 
-First start by cloning and cd-ing into the dir
+First start by cloning and cd-ing into the dir, then run the setup file.
 
 ```bash
 git clone https://github.com/PoutineSyropErable/JetUML ~/.local/java
 cd ~/.local/java
+./JavaSetup.sh
 ```
-
-On a good system, like arch-based where everything is up to date and not dinosaur old,
-you can use the general script that will detect your os and cpu architecture and download the correct files.
-
-```bash
-./JavaSetup.sh # Won't work with older bash, like default on mac.
-```
-
-**New option**:
-On mac, you can just use the hardcoded script:
-
-```bash
-./JavaSetup_Mac_Intel.sh
-# or
-./JavaSetup_Mac_Silicon.sh
-```
-
-**Old option**:
-If my general script doesn't work on your machine, such as
-"error, line 17: linux_86_64 unbound variable" or something similar, then it's because your version of
-bash is too old, declarative arrays don't work there, and I can't be fucked to change it to using an if else/switch statement
-rather then a dictionary to chose the url.
-
-The solution is to install a new version of bash, and run the script with it
-On Mac:
-
-```bash
-# Start by getting a newer version of bash:
-brew install bash
-# Then find bash location:
-brew --prefix bash
-# So the command should be $<Brew bash path> ./JavaSetup.sh
-# ie: (probably one of the two)
-/opt/homebrew/bin/bash ./JavaSetup.sh # Apple Silicon
-/usr/local/bin/bash ./JavaSetup.sh    # Intel Macs
-```
-
-Just install a new version of bash with whatever package manager you have, and use it.
-And if your package manager is dinosaur old and it can't give you a new enough version of bash,
-then figure out how to install a newer version of bash on your machine, compile from source if you need to.
-
-Or, just modify my script by commenting out the "declare -A" line, and then just hardcode the variable for the url of jetuml and javafx
-Or, do what I can't be fucked to do, and replace the nice dictionary (from a associative arrays) with something that works with old versions.
-Example:
-`if OS_ARCH = X then URL = Y`, or have two arrays, and do `for: if OS_ARCH = OS_ARCHS[i], then URL = URL[i] else next.`
 
 ---
 
@@ -147,3 +103,57 @@ alias jetuml="JetUML"
 ```
 
 to your shell rc file so you can just type jetuml if you are too lazy to capitalize JetUML.
+
+---
+
+# Old versions
+
+## This is going to be semi consistent, because I changed the main script to be backward compatible.
+
+### It had the previous fix for it.
+
+On a good system, like arch-based where everything is up to date and not dinosaur old,
+you can use the general script that will detect your os and cpu architecture and download the correct files.
+
+```bash
+./JavaSetup_NewBash.sh
+# Won't work with older bash, like default on mac.
+```
+
+**New option**:
+On mac, you can just use the hardcoded script:
+
+```bash
+./JavaSetup_Mac_Intel.sh
+# or
+./JavaSetup_Mac_Silicon.sh
+```
+
+**Old option**:
+If my general script doesn't work on your machine, such as
+"error, line 17: linux_86_64 unbound variable" or something similar, then it's because your version of
+bash is too old, declarative arrays don't work there, and I can't be fucked to change it to using an if else/switch statement
+rather then a dictionary to chose the url.
+
+The solution is to install a new version of bash, and run the script with it
+On Mac:
+
+```bash
+# Start by getting a newer version of bash:
+brew install bash
+# Then find bash location:
+brew --prefix bash
+# So the command should be $<Brew bash path> ./JavaSetup.sh
+# ie: (probably one of the two)
+/opt/homebrew/bin/bash ./JavaSetup.sh # Apple Silicon
+/usr/local/bin/bash ./JavaSetup.sh    # Intel Macs
+```
+
+Just install a new version of bash with whatever package manager you have, and use it.
+And if your package manager is dinosaur old and it can't give you a new enough version of bash,
+then figure out how to install a newer version of bash on your machine, compile from source if you need to.
+
+Or, just modify my script by commenting out the "declare -A" line, and then just hardcode the variable for the url of jetuml and javafx
+Or, do what I can't be fucked to do, and replace the nice dictionary (from a associative arrays) with something that works with old versions.
+Example:
+`if OS_ARCH = X then URL = Y`, or have two arrays, and do `for: if OS_ARCH = OS_ARCHS[i], then URL = URL[i] else next.`

@@ -1,5 +1,25 @@
 #!/bin/bash
 
+#!/bin/bash
+echo "🔍 Running with shell: $SHELL"
+echo "🔍 Bash version: $(bash --version)"
+echo "🔍 Current process: $$"
+echo "🔍 Parent process: $(ps -o ppid= -p $$)"
+echo "🔍 Process tree:"
+ps -fp $$ # Show current process info
+
+# Check if Bash version is at least 4.0
+if [[ "${BASH_VERSINFO:-0}" -lt 4 ]]; then
+	echo "❌ Error: This script requires Bash 4.0 or later."
+	echo "➡️  Upgrade Bash: On macOS, run:"
+	echo "   brew install bash"
+	echo "   Then do"
+	echo "   /opt/homebrew/bin/bash ./JavaSetup.sh"
+	exit 1
+fi
+
+echo "✅ Bash version supports associative arrays!"
+
 set -euo pipefail # Enable strict error handling
 # This will cause exit if any command fails, like with regular programming language
 
@@ -13,18 +33,20 @@ mkdir -p "$JDK_DIR"
 JETUML_JAR="$JAVA_DIR/JetUML-3.8.jar"
 JETUML_URL="https://github.com/prmr/JetUML/releases/download/v3.8/JetUML-3.8.jar"
 
-OS_ARCHS=("Linux_x86_64" "Linux_ARM64" "Mac_x86_64" "Mac_ARM64")
-JDK_URLS=(
-	"https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_linux-x64_bin.tar.gz"
-	"https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_linux-aarch64_bin.tar.gz"
-	"https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_macos-x64_bin.tar.gz"
-	"https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_macos-aarch64_bin.tar.gz"
+# Define JavaFX URLs
+declare -A JAVAFX_URLS=(
+	["Linux_x86_64"]="https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_linux-x64_bin-sdk.zip"
+	["Linux_ARM64"]="https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_linux-aarch64_bin-sdk.zip"
+	["Mac_x86_64"]="https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_osx-x64_bin-sdk.zip"
+	["Mac_ARM64"]="https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_osx-aarch64_bin-sdk.zip"
 )
-JAVAFX_URLS=(
-	"https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_linux-x64_bin-sdk.zip"
-	"https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_linux-aarch64_bin-sdk.zip"
-	"https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_osx-x64_bin-sdk.zip"
-	"https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_osx-aarch64_bin-sdk.zip"
+
+# Define OpenJDK URLs (from download.java.net)
+declare -A JDK_URLS=(
+	["Linux_x86_64"]="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_linux-x64_bin.tar.gz"
+	["Linux_ARM64"]="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_linux-aarch64_bin.tar.gz"
+	["Mac_ARM64"]="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_macos-aarch64_bin.tar.gz"
+	["Mac_x86_64"]="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_macos-x64_bin.tar.gz"
 )
 
 #--------------------------------- Ensure programs are installed ----------------------
@@ -143,72 +165,32 @@ OS_ARCH="${OS}_${ARCH}"
 
 # Function to print available keys in an associative array
 print_available_keys() {
-	local array_name="$1" # Should be "JDK_URLS" or "JAVAFX_URLS"
-	local label="$1"      # A label for printing (for human-friendly output)
-
-	echo "Available keys in $label:"
-
-	case "$array_name" in
-	"JDK_URLS")
-		for i in "${!OS_ARCHS[@]}"; do
-			echo "  - ${OS_ARCHS[$i]} → ${JDK_URLS[$i]}"
-		done
-		;;
-	"JAVAFX_URLS")
-		for i in "${!OS_ARCHS[@]}"; do
-			echo "  - ${OS_ARCHS[$i]} → ${JAVAFX_URLS[$i]}"
-		done
-		;;
-	*)
-		echo "Error: Unknown array '$array_name'" >&2
-		return 1
-		;;
-	esac
-	echo ""
-}
-
-# Function to look up a URL based on OS_ARCH and a given URL array name
-get_url() {
-	local target_os_arch="$1"
-	local array_name="$2" # Name of the URL array, e.g., "JDK_URLS" or "JAVAFX_URLS"
-	local index=-1
-	local i
-
-	# Loop over OS_ARCHS to find the index that matches target_os_arch
-	for i in "${!OS_ARCHS[@]}"; do
-		if [ "${OS_ARCHS[$i]}" = "$target_os_arch" ]; then
-			index=$i
-			break
-		fi
+	local -n array=$1 # Use nameref to pass an associative array by reference
+	echo "Available keys in $2:"
+	for key in "${!array[@]}"; do
+		echo "  - $key → ${array[$key]}"
 	done
-
-	if [ $index -eq -1 ]; then
-		echo "Error: OS_ARCH '$target_os_arch' not found." >&2
-		return 1
-	fi
-
-	# Indirectly access the URL from the array specified by array_name
-	local url
-	eval "url=\${${array_name}[$index]}"
-	echo "$url"
+	echo ""
 }
 
 # Debugging: Check for JavaFX URL
 echo -e "\n🔍 Debugging: Looking for key '${OS_ARCH}' in JAVAFX_URLS\n"
-print_available_keys "JAVAFX_URLS"
+print_available_keys JAVAFX_URLS "JAVAFX_URLS"
 
-JAVAFX_URL=$(get_url "$OS_ARCH" "JAVAFX_URLS")
-if [ -z "$JAVAFX_URL" ]; then
+if [[ -v JAVAFX_URLS[$OS_ARCH] ]]; then
+	JAVAFX_URL=${JAVAFX_URLS[$OS_ARCH]}
+else
 	echo "❌ Error: No JavaFX URL found for '${OS_ARCH}'."
 	exit 1
 fi
 
 # Debugging: Check for JDK URL
 echo -e "\n🔍 Debugging: Looking for key '${OS_ARCH}' in JDK_URLS\n"
-print_available_keys "JDK_URLS"
+print_available_keys JDK_URLS "JDK_URLS"
 
-JDK_URL=$(get_url "$OS_ARCH" "JDK_URLS")
-if [ -z "$JDK_URL" ]; then
+if [[ -v JDK_URLS[$OS_ARCH] ]]; then
+	JDK_URL=${JDK_URLS[$OS_ARCH]}
+else
 	echo "❌ Error: No JDK URL found for '${OS_ARCH}'."
 	exit 1
 fi
