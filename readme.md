@@ -23,9 +23,11 @@ To do so, you must modify the rc file of your shell. (It's executed every startu
 
 **Manual Way:**
 Depending on your shell (bash, zsh, fish), find it's (run config/RC) file
-(And you know which shell it is and where's it's config file is if it's a different one)
 
-here's the path to the shell rc files
+If you are using a different shell, you are using something niche, and you definitely installed it and configured it yourself,
+So, you should know where the file is and how to do it yourself, or at least know how to ask ChatGPT how to do it.
+
+Here's the path to the shell rc files
 
 ```bash
 ~/.config/fish/config.fish
@@ -33,7 +35,7 @@ here's the path to the shell rc files
 ~/.bashrc
 ```
 
-and add:
+Add to it:
 
 ```bash
 export PATH="$HOME/.local/java:$PATH"
@@ -80,7 +82,7 @@ using your prefered gui app launcher. (Probably the one integrated into your os)
 
 # Lazy typer aliases
 
-you can also add
+You can also add:
 
 ```bash
 alias jetuml="JetUML"
@@ -92,13 +94,13 @@ to your shell rc file so you can just type jetuml if you are too lazy to capital
 
 # Making a GUI App Launcer
 
-the .desktop file is to launch it with a normal launche ( For linux only)
+The .desktop file is to launch it with a normal launche ( For linux only)
 
 ```bash
 mv ./JetUML.desktop $HOME/.local/share/applications/JetUML.desktop
 ```
 
-on mac, do (Experimental, not tested)
+On mac, do (Experimental, not tested)
 
 ```bash
 ./create_mac_launcher.sh
