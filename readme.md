@@ -1,13 +1,27 @@
+On a good system, like arch-based where everything is up to date and not dinosaur old:
+
 ```
 git clone https://github.com/PoutineSyropErable/JetUML ~/.local/java
 cd ~/.local/java
-./JavaSetup.sh
+./JavaSetup.sh # Won't work with older bash, like default on mac.
+```
+
+On Mac:
+
+```
+brew install bash # get's a newer version of bash
+/opt/homebrew/bin/bash ./JavaSetup.sh
+# or
+/usr/local/bin/bash ./JavaSetup.sh
+# use
+brew --prefix bash
+# to find the location of bash install
 ```
 
 the .desktop file is to launch it with a normal launche ( For linux only)
 
 ```
-mv ./JetUML.desktop /home/francois/.local/share/applications/JetUML.desktop
+mv ./JetUML.desktop $HOME/.local/share/applications/JetUML.desktop
 ```
 
 on mac, do (Experimental, not tested)

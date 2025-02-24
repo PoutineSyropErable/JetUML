@@ -1,0 +1,30 @@
+name: Test JavaSetup with Newer Bash
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual execution
+jobs:
+  test-macos:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-12, macos-14] # macOS 12 = Intel, macOS 14 = ARM
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Debug Default Bash Version
+        run: |
+          echo "🖥️ Default shell: $SHELL"
+          echo "🐚 Default Bash version:"
+          /bin/bash --version
+      - name: Install Latest Bash on macOS
+        run: |
+          brew install bash
+          echo "Using new Bash version:"
+          /opt/homebrew/bin/bash --version
+      - name: Run JavaSetup with Latest Bash
+        run: /opt/homebrew/bin/bash ./JavaSetup.sh
