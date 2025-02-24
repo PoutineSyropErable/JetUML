@@ -1,4 +1,4 @@
-name: Test JavaSetup with Newer Bash
+name: Newer Bash Mac Java Setup
 on:
   push:
     branches:

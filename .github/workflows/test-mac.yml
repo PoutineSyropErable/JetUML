@@ -1,4 +1,4 @@
-name: Test JavaSetup on macOS (Intel & ARM)
+name: Initial Mac tests
 on:
   push:
     branches:

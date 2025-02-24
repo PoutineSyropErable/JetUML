@@ -1,5 +1,4 @@
-name: Java Setup on macOS (Intel & Apple Silicon)
-
+name: HardCoded JavaSetup for Mac
 on:
   push:
     branches:
@@ -7,23 +6,20 @@ on:
   pull_request:
     branches:
       - main
-  workflow_dispatch:  # Allows manual trigger
-
+  workflow_dispatch: # Allows manual trigger
 jobs:
   setup-mac:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
         include:
-          - os: macos-12  # macOS Intel (x86_64)
+          - os: macos-12 # macOS Intel (x86_64)
             script: JavaSetup_Mac_Intel.sh
-          - os: macos-14  # macOS Apple Silicon (ARM64)
+          - os: macos-14 # macOS Apple Silicon (ARM64)
             script: JavaSetup_Mac_Silicon.sh
-
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-
       - name: Debug System Information
         run: |
           echo "\U0001f3d7\ufe0f Running on: $(uname -s)"
@@ -32,7 +28,6 @@ jobs:
           echo "\U0001f50d Default Shell: $SHELL"
           echo "\U0001f41a Default Bash Version:"
           /bin/bash --version
-
       - name: Install Latest Bash
         run: |
           brew install bash
@@ -40,7 +35,5 @@ jobs:
           echo "Using Bash version:"
           $NEW_BASH --version
           echo "NEW_BASH=$NEW_BASH" >> $GITHUB_ENV
-
       - name: Run Java Setup Script
         run: ${{ env.NEW_BASH }} ${{ matrix.script }}
-
