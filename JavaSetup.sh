@@ -6,11 +6,14 @@ set -euo pipefail # Enable strict error handling
 # Set installation directories
 JAVA_DIR="$HOME/.local/java"
 JDK_DIR="$JAVA_DIR/java23-openjdk"
+mkdir -p "$JAVA_DIR"
+mkdir -p "$JDK_DIR"
 
 # JetUML file name and url
 JETUML_JAR="$JAVA_DIR/JetUML-3.8.jar"
 JETUML_URL="https://github.com/prmr/JetUML/releases/download/v3.8/JetUML-3.8.jar"
 
+#--------------------------------- Ensure programs are installed ----------------------
 # Ensure curl is installed
 curl --version &>/dev/null || {
 	echo "curl not found. Installing..."
@@ -26,6 +29,23 @@ curl --version &>/dev/null || {
 
 echo ""
 echo "Curl is installed."
+echo ""
+
+# Ensure unzip is installed
+unzip -v &>/dev/null || {
+	echo "unzip not found. Installing..."
+	sudo apt install -y unzip 2>/dev/null ||
+		sudo pacman -S unzip 2>/dev/null ||
+		sudo dnf install -y unzip 2>/dev/null ||
+		sudo apk add unzip 2>/dev/null ||
+		brew install unzip 2>/dev/null || {
+		echo "can't get unzip"
+		exit 1
+	}
+}
+
+echo ""
+echo "Unzip is installed."
 echo ""
 
 function downloadJetUML() {
@@ -44,9 +64,7 @@ function downloadJetUML() {
 # decomment if you want to redownload it
 # downloadJetUML()
 
-mkdir -p "$JAVA_DIR"
-mkdir -p "$JDK_DIR"
-
+#-------- -------------------------- detecting os and cpu architecture -----------------------------
 # Function to detect OS
 detect_os() {
 	if [[ "$OSTYPE" == "linux-gnu"* ]]; then
@@ -63,7 +81,7 @@ detect_arch() {
 	ARCH=$(uname -m)
 	case $ARCH in
 	"x86_64") echo "x86_64" ;;
-	"aarch64") echo "ARM64" ;;
+	"aarch64" | "arm64") echo "ARM64" ;;
 	*) echo "Unknown" ;;
 	esac
 }
@@ -105,6 +123,8 @@ fi
 
 printf "\nUsing OS: $OS, Using CPU architecture: $ARCH\n\n"
 
+#-------------------------------------------------------- GETTING THE URL FOR EACH ARCHITECTURE ----------------------
+
 # Define JavaFX URLs
 declare -A JAVAFX_URLS=(
 	["Linux_x86_64"]="https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_linux-x64_bin-sdk.zip"
@@ -121,26 +141,39 @@ declare -A JDK_URLS=(
 	["Mac_x86_64"]="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_macos-x64_bin.tar.gz"
 )
 
-unzip -v &>/dev/null || {
-	echo "unzip not found. Installing..."
-	sudo apt install -y unzip 2>/dev/null ||
-		sudo pacman -S unzip 2>/dev/null ||
-		sudo dnf install -y unzip 2>/dev/null ||
-		sudo apk add unzip 2>/dev/null ||
-		brew install unzip 2>/dev/null || {
-		echo "can't get unzip"
-		exit 1
-	}
-}
+OS_ARCH="${OS}_${ARCH}"
+echo "Debugging: Looking for key '${OS_ARCH}' in JAVAFX_URLS"
+declare -p JAVAFX_URLS # Print all available keys
 
-echo ""
-echo "Unzip is installed."
-echo ""
+if [[ -v JAVAFX_URLS[$OS_ARCH] ]]; then
+	JAVAFX_URL=${JAVAFX_URLS[$OS_ARCH]}
+else
+	echo "Error: No JavaFX URL found for '${OS_ARCH}'. Available keys are:"
+	for key in "${!JAVAFX_URLS[@]}"; do
+		echo "  - $key"
+	done
+	exit 1
+fi
 
-# Download JavaFX (goes in ~/.local/java)
-JAVAFX_URL=${JAVAFX_URLS["${OS}_${ARCH}"]}
+# Download OpenJDK (goes in ~/.local/java/java23-openjdk)
+echo "Debugging: Looking for key '${OS_ARCH}' in JDK_URLS"
+declare -p JDK_URLS # Print all available keys
+
+if [[ -v JDK_URLS[$OS_ARCH] ]]; then
+	JDK_URL=${JDK_URLS[$OS_ARCH]}
+else
+	echo "Error: No JDK URL found for '${OS_ARCH}'. Available keys are:"
+	for key in "${!JDK_URLS[@]}"; do
+		echo "  - $key"
+	done
+	exit 1
+fi
 
 printf "The javafx url: $JAVAFX_URL"
+printf "The jdk url: $JDK_URL"
+
+#------------------------------------------- DOWNLOAD JAVA JDKS and JAVAFX -------------------
+
 if [[ -n "$JAVAFX_URL" ]]; then
 	FILE_NAME="${JAVAFX_URL##*/}"
 	FILE_PATH="$JAVA_DIR/$FILE_NAME"
@@ -165,9 +198,6 @@ else
 	echo "No JavaFX download available for $OS ($ARCH)."
 fi
 
-# Download OpenJDK (goes in ~/.local/java/java23-openjdk)
-printf "The jdk url: $JAVAFX_URL"
-JDK_URL=${JDK_URLS["${OS}_${ARCH}"]}
 if [[ -n "$JDK_URL" ]]; then
 	FILE_NAME="${JDK_URL##*/}"
 	FILE_PATH="$JDK_DIR/$FILE_NAME"
@@ -192,6 +222,8 @@ if [[ -n "$JDK_URL" ]]; then
 else
 	echo "No OpenJDK download available for $OS ($ARCH)."
 fi
+
+#------------------------------------------------- CLEANUP AND END STUFF
 
 # Cleanup any leftover zip/tar files
 echo "Cleaning up temporary files..."
