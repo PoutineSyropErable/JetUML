@@ -10,13 +10,6 @@ mkdir -p "$JDK_DIR"
 
 printf "HOME is : ($HOME)"
 
-cd "$JAVA_DIR" || exit 3
-echo ">pwd"
-pwd
-echo ">ls"
-ls
-echo ""
-
 # Hardcoded URLs for Mac ARM64
 JAVAFX_URL="https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_osx-aarch64_bin-sdk.zip"
 JDK_URL="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_macos-aarch64_bin.tar.gz"
