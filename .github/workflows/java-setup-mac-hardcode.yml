@@ -1,4 +1,4 @@
-name: Java Setup on macOS (Intel & Apple Silicon)
+name: HardCoded JavaSetup for Mac
 on:
   push:
     branches:
