@@ -10,22 +10,6 @@ cd ~/.local/java
 
 ---
 
-# Making a GUI App Launcer
-
-the .desktop file is to launch it with a normal launche ( For linux only)
-
-```bash
-mv ./JetUML.desktop $HOME/.local/share/applications/JetUML.desktop
-```
-
-on mac, do (Experimental, not tested)
-
-```bash
-./create_mac_launcher.sh
-```
-
----
-
 # Permanently adding the directory path of this project to your shell PATH Variable (To be able to execute a command)
 
 then to be able to just use the JetUML terminal command, you need to add ~/.local/java to the path permanently.
@@ -103,6 +87,22 @@ alias jetuml="JetUML"
 ```
 
 to your shell rc file so you can just type jetuml if you are too lazy to capitalize JetUML.
+
+---
+
+# Making a GUI App Launcer
+
+the .desktop file is to launch it with a normal launche ( For linux only)
+
+```bash
+mv ./JetUML.desktop $HOME/.local/share/applications/JetUML.desktop
+```
+
+on mac, do (Experimental, not tested)
+
+```bash
+./create_mac_launcher.sh
+```
 
 ---
 
