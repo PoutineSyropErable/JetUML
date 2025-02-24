@@ -1,13 +1,35 @@
 # Initial download and setup
 
-On a good system, like arch-based where everything is up to date and not dinosaur old:
+First start by cloning and cd-ing into the dir
 
 ```bash
 git clone https://github.com/PoutineSyropErable/JetUML ~/.local/java
 cd ~/.local/java
+```
+
+On a good system, like arch-based where everything is up to date and not dinosaur old,
+you can use the general script that will detect your os and cpu architecture and download the correct files.
+
+```bash
 ./JavaSetup.sh # Won't work with older bash, like default on mac.
 ```
 
+**New option**:
+On mac, you can just use the hardcoded script:
+
+```bash
+./JavaSetup_Mac_Intel.sh
+# or
+./JavaSetup_Mac_Silicon.sh
+```
+
+**Old option**:
+If my general script doesn't work on your machine, such as
+"error, line 17: linux_86_64 unbound variable" or something similar, then it's because your version of
+bash is too old, declarative arrays don't work there, and I can't be fucked to change it to using an if else/switch statement
+rather then a dictionary to chose the url.
+
+The solution is to install a new version of bash, and run the script with it
 On Mac:
 
 ```bash
@@ -26,15 +48,9 @@ And if your package manager is dinosaur old and it can't give you a new enough v
 then figure out how to install a newer version of bash on your machine, compile from source if you need to.
 
 Or, just modify my script by commenting out the "declare -A" line, and then just hardcode the variable for the url of jetuml and javafx
-
-**New option**:
-On mac, you can just use the hardcoded script:
-
-```bash
-./JavaSetup_Mac_Intel.sh
-# or
-./JavaSetup_Mac_Silicon.sh
-```
+Or, do what I can't be fucked to do, and replace the nice dictionary (from a associative arrays) with something that works with old versions.
+Example:
+`if OS_ARCH = X then URL = Y`, or have two arrays, and do `for: if OS_ARCH = OS_ARCHS[i], then URL = URL[i] else next.`
 
 ---
 
