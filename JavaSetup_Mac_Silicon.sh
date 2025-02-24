@@ -40,5 +40,3 @@ echo "✅ Installation complete for Mac Apple Silicon!"
 echo ""
 ls
 echo ""
-"
-
