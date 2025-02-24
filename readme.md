@@ -106,9 +106,9 @@ to your shell rc file so you can just type jetuml if you are too lazy to capital
 
 ---
 
-# Old versions
+# Old versions - Not Important, don't need to read. Just moved previous readme to bottom and changed it a bit.
 
-## This is going to be semi consistent, because I changed the main script to be backward compatible.
+## This is going to be semi consistent, because I changed the main script to be backward compatible. And again, this is an artefact.
 
 ### It had the previous fix for it.
 
