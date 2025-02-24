@@ -8,6 +8,15 @@ JDK_DIR="$JAVA_DIR/java-23-openjdk"
 mkdir -p "$JAVA_DIR"
 mkdir -p "$JDK_DIR"
 
+printf "HOME is : ($HOME)"
+
+cd JAVA_DIR || exit 3
+echo ">pwd"
+pwd
+echo ">ls"
+ls
+echo ""
+
 # Hardcoded URLs for Mac Intel
 JAVAFX_URL="https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_osx-x64_bin-sdk.zip"
 JDK_URL="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_macos-x64_bin.tar.gz"
@@ -38,5 +47,8 @@ rm "$FILE_PATH"
 echo "✅ Installation complete for Mac Intel!"
 
 echo ""
+echo "pwd>"
+pwd
+echo "ls>"
 ls
 echo ""
