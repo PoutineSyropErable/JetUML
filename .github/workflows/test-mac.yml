@@ -1,0 +1,27 @@
+name: Test JavaSetup on macOS (Intel & ARM)
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch: # Allows manual trigger
+jobs:
+  test-macos:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-12, macos-14] # macOS 12 = Intel, macOS 14 = ARM
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Check System Information
+        run: |
+          echo "🏗️ Running on: $(uname -s)"
+          echo "🖥️ Architecture: $(uname -m)"
+          echo "🍏 macOS Version: $(sw_vers -productVersion)"
+      - name: Run JavaSetup.sh
+        run: |
+          chmod +x ./JavaSetup.sh
+          ./JavaSetup.sh
