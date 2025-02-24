@@ -2,7 +2,10 @@
 
 USER_JAVA_DIR="$HOME/.local/java"
 SYSTEM_JAVA_DIR="/usr/lib/jvm"
-JAVA_DIR=$SYSTEM_JAVA_DIR
+
+# keep one of them
+# JAVA_DIR=$SYSTEM_JAVA_DIR
+JAVA_DIR=$USER_JAVA_DIR
 
 export JAVA_HOME="$JAVA_DIR/java-23-openjdk"
 export PATH_TO_FX="$JAVA_DIR/javafx-sdk-23/lib"
