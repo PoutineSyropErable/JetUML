@@ -44,6 +44,9 @@ export PATH_TO_FX=\"\$HOME/.local/java/javafx-sdk-23/lib\"
 
 # Add JavaFX binaries to PATH (optional, but helps some setups)
 export PATH=\"\$PATH_TO_FX:\$PATH\"
+
+#Lazy typer alias
+alias jetuml="JetUML"
 "
 
 # Append environment variables if not already present
