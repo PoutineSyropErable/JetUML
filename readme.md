@@ -50,7 +50,7 @@ You should also add these environment variable to your shell permanently by addi
 
 ```
 # Set Java Home
-export JAVA_HOME="$HOME/.local/java/java23-openjdk"
+export JAVA_HOME="$HOME/.local/java/java-23-openjdk"
 
 # Add Java binaries to PATH
 export PATH="$JAVA_HOME/bin:$PATH"
