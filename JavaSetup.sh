@@ -1,5 +1,9 @@
 #!/bin/bash
 
+#!/bin/bash
+echo "🔍 Running with shell: $SHELL"
+echo "🔍 Bash version: $(bash --version)"
+
 set -euo pipefail # Enable strict error handling
 # This will cause exit if any command fails, like with regular programming language
 
