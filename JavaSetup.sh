@@ -180,8 +180,6 @@ echo -e "\n✅ JavaFX URL: $JAVAFX_URL"
 echo "✅ JDK URL: $JDK_URL"
 echo -e "\n🎉 All URLs successfully retrieved!\n"
 
-exit 0
-
 #------------------------------------------- DOWNLOAD JAVA JDKS and JAVAFX -------------------
 
 if [[ -n "$JAVAFX_URL" ]]; then
