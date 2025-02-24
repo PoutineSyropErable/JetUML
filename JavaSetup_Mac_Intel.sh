@@ -1,14 +1,5 @@
 #!/bin/bash
 
-echo "🔍 Running on Mac Intel (x86_64)"
-echo "🔍 Bash version: $(/usr/local/bin/bash --version)"
-
-# Ensure Bash 4+ is used
-if [[ "${BASH_VERSINFO:-0}" -lt 4 ]]; then
-	echo "❌ Error: Bash 4.0 or later is required."
-	exit 1
-fi
-
 set -euo pipefail
 
 # Set installation directories
