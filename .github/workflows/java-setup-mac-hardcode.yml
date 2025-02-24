@@ -18,14 +18,16 @@ jobs:
           - os: macos-14 # macOS Apple Silicon (ARM64)
             script: JavaSetup_Mac_Silicon.sh
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-      - name: Create Target Directory & Change Into It
+      - name: Set Target Directory for Clone
         run: |
           mkdir -p "$HOME/.local/java"
-          cd "$HOME/.local/java"
-          echo "Working directory is now: $(pwd)"
           echo "HOME_LOCAL_JAVA=$HOME/.local/java" >> $GITHUB_ENV
+      - name: Manually Clone Repository into $HOME/.local/java
+        run: |
+          git clone https://github.com/PoutineSyropErable/JetUML.git "$HOME/.local/java"
+          ls -lah "$HOME/.local/java"
+      - name: Change to Target Directory
+        run: cd "$HOME/.local/java"
       - name: Debug System Information
         run: |
           echo "🏗️ Running on: $(uname -s)"
@@ -34,6 +36,8 @@ jobs:
           echo "🔍 Default Shell: $SHELL"
           echo "🐚 Default Bash Version:"
           /bin/bash --version
+          echo "📂 Files in $HOME/.local/java:"
+          ls -lah "$HOME/.local/java"
       - name: Run Java Setup Script with Default Bash
         run: |
           cd "$HOME/.local/java"
