@@ -7,6 +7,13 @@ SYSTEM_JAVA_DIR="/usr/lib/jvm"
 # JAVA_DIR=$SYSTEM_JAVA_DIR
 JAVA_DIR=$USER_JAVA_DIR
 
+sys_ver=$("$SYSTEM_JAVA_DIR/java-23-openjdk/bin/java" -version 2>&1)
+usr_ver=$("$USER_JAVA_DIR/java-23-openjdk/bin/java" -version 2>&1)
+# Print Java versions for debugging
+echo -e "\n🔍 Java Version Check:"
+echo -e "  🖥  System Java: \n$sys_ver\n"
+echo -e "  🏠  User Java:   \n$usr_ver\n"
+
 export JAVA_HOME="$JAVA_DIR/java-23-openjdk"
 export PATH_TO_FX="$JAVA_DIR/javafx-sdk-23/lib"
 export PATH="$JAVA_HOME/bin:$PATH"

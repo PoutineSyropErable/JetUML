@@ -5,7 +5,7 @@ set -euo pipefail # Enable strict error handling
 
 # Set installation directories
 JAVA_DIR="$HOME/.local/java"
-JDK_DIR="$JAVA_DIR/java23-openjdk"
+JDK_DIR="$JAVA_DIR/java-23-openjdk"
 mkdir -p "$JAVA_DIR"
 mkdir -p "$JDK_DIR"
 
