@@ -262,3 +262,7 @@ echo "Installation complete!"
 echo "JavaFX installed in: $JAVA_DIR"
 echo "OpenJDK installed in: $JDK_DIR"
 echo "JetUML installed in: $JETUML_JAR"
+
+echo ""
+ls
+echo ""

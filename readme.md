@@ -25,6 +25,8 @@ Just install a new version of bash with whatever package manager you have, and u
 And if your package manager is dinosaur old and it can't give you a new enough version of bash,
 then figure out how to install a newer version of bash on your machine, compile from source if you need to.
 
+Or, just modify my script by commenting out the "declare -A" line, and then just hardcode the variable for the url of jetuml and javafx
+
 ---
 
 # Making a GUI App Launcer
