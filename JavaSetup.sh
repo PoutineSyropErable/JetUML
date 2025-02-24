@@ -13,6 +13,22 @@ mkdir -p "$JDK_DIR"
 JETUML_JAR="$JAVA_DIR/JetUML-3.8.jar"
 JETUML_URL="https://github.com/prmr/JetUML/releases/download/v3.8/JetUML-3.8.jar"
 
+# Define JavaFX URLs
+declare -A JAVAFX_URLS=(
+	["Linux_x86_64"]="https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_linux-x64_bin-sdk.zip"
+	["Linux_ARM64"]="https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_linux-aarch64_bin-sdk.zip"
+	["Mac_x86_64"]="https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_osx-x64_bin-sdk.zip"
+	["Mac_ARM64"]="https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_osx-aarch64_bin-sdk.zip"
+)
+
+# Define OpenJDK URLs (from download.java.net)
+declare -A JDK_URLS=(
+	["Linux_x86_64"]="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_linux-x64_bin.tar.gz"
+	["Linux_ARM64"]="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_linux-aarch64_bin.tar.gz"
+	["Mac_ARM64"]="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_macos-aarch64_bin.tar.gz"
+	["Mac_x86_64"]="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_macos-x64_bin.tar.gz"
+)
+
 #--------------------------------- Ensure programs are installed ----------------------
 # Ensure curl is installed
 curl --version &>/dev/null || {
@@ -124,53 +140,47 @@ fi
 printf "\nUsing OS: $OS, Using CPU architecture: $ARCH\n\n"
 
 #-------------------------------------------------------- GETTING THE URL FOR EACH ARCHITECTURE ----------------------
-
-# Define JavaFX URLs
-declare -A JAVAFX_URLS=(
-	["Linux_x86_64"]="https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_linux-x64_bin-sdk.zip"
-	["Linux_ARM64"]="https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_linux-aarch64_bin-sdk.zip"
-	["Mac_x86_64"]="https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_osx-x64_bin-sdk.zip"
-	["Mac_ARM64"]="https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_osx-aarch64_bin-sdk.zip"
-)
-
-# Define OpenJDK URLs (from download.java.net)
-declare -A JDK_URLS=(
-	["Linux_x86_64"]="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_linux-x64_bin.tar.gz"
-	["Linux_ARM64"]="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_linux-aarch64_bin.tar.gz"
-	["Mac_ARM64"]="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_macos-aarch64_bin.tar.gz"
-	["Mac_x86_64"]="https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_macos-x64_bin.tar.gz"
-)
-
+# Detect OS and architecture
 OS_ARCH="${OS}_${ARCH}"
-echo "Debugging: Looking for key '${OS_ARCH}' in JAVAFX_URLS"
-declare -p JAVAFX_URLS # Print all available keys
+
+# Function to print available keys in an associative array
+print_available_keys() {
+	local -n array=$1 # Use nameref to pass an associative array by reference
+	echo "Available keys in $2:"
+	for key in "${!array[@]}"; do
+		echo "  - $key → ${array[$key]}"
+	done
+	echo ""
+}
+
+# Debugging: Check for JavaFX URL
+echo -e "\n🔍 Debugging: Looking for key '${OS_ARCH}' in JAVAFX_URLS\n"
+print_available_keys JAVAFX_URLS "JAVAFX_URLS"
 
 if [[ -v JAVAFX_URLS[$OS_ARCH] ]]; then
 	JAVAFX_URL=${JAVAFX_URLS[$OS_ARCH]}
 else
-	echo "Error: No JavaFX URL found for '${OS_ARCH}'. Available keys are:"
-	for key in "${!JAVAFX_URLS[@]}"; do
-		echo "  - $key"
-	done
+	echo "❌ Error: No JavaFX URL found for '${OS_ARCH}'."
 	exit 1
 fi
 
-# Download OpenJDK (goes in ~/.local/java/java23-openjdk)
-echo "Debugging: Looking for key '${OS_ARCH}' in JDK_URLS"
-declare -p JDK_URLS # Print all available keys
+# Debugging: Check for JDK URL
+echo -e "\n🔍 Debugging: Looking for key '${OS_ARCH}' in JDK_URLS\n"
+print_available_keys JDK_URLS "JDK_URLS"
 
 if [[ -v JDK_URLS[$OS_ARCH] ]]; then
 	JDK_URL=${JDK_URLS[$OS_ARCH]}
 else
-	echo "Error: No JDK URL found for '${OS_ARCH}'. Available keys are:"
-	for key in "${!JDK_URLS[@]}"; do
-		echo "  - $key"
-	done
+	echo "❌ Error: No JDK URL found for '${OS_ARCH}'."
 	exit 1
 fi
 
-printf "The javafx url: $JAVAFX_URL"
-printf "The jdk url: $JDK_URL"
+# Print final results
+echo -e "\n✅ JavaFX URL: $JAVAFX_URL"
+echo "✅ JDK URL: $JDK_URL"
+echo -e "\n🎉 All URLs successfully retrieved!\n"
+
+exit 0
 
 #------------------------------------------- DOWNLOAD JAVA JDKS and JAVAFX -------------------
 
