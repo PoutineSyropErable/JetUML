@@ -8,7 +8,17 @@ echo "🔍 Parent process: $(ps -o ppid= -p $$)"
 echo "🔍 Process tree:"
 ps -fp $$ # Show current process info
 
-exit 0
+# Check if Bash version is at least 4.0
+if [[ "${BASH_VERSINFO:-0}" -lt 4 ]]; then
+	echo "❌ Error: This script requires Bash 4.0 or later."
+	echo "➡️  Upgrade Bash: On macOS, run:"
+	echo "   brew install bash"
+	echo "   Then do"
+	echo "   /opt/homebrew/bin/bash ./JavaSetup.sh"
+	exit 1
+fi
+
+echo "✅ Bash version supports associative arrays!"
 
 set -euo pipefail # Enable strict error handling
 # This will cause exit if any command fails, like with regular programming language
