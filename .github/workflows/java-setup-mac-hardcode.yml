@@ -20,20 +20,20 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+      - name: Create and Change to Target Directory
+        run: |
+          mkdir -p $HOME/.local/java
+          cd $HOME/.local/java
+          echo "Working directory is now: $(pwd)"
       - name: Debug System Information
         run: |
-          echo "\U0001f3d7\ufe0f Running on: $(uname -s)"
-          echo "\U0001f5a5\ufe0f Architecture: $(uname -m)"
-          echo "\U0001f34f macOS Version: $(sw_vers -productVersion)"
-          echo "\U0001f50d Default Shell: $SHELL"
-          echo "\U0001f41a Default Bash Version:"
+          echo "🏗️ Running on: $(uname -s)"
+          echo "🖥️ Architecture: $(uname -m)"
+          echo "🍏 macOS Version: $(sw_vers -productVersion)"
+          echo "🔍 Default Shell: $SHELL"
+          echo "🐚 Default Bash Version:"
           /bin/bash --version
-      - name: Install Latest Bash
+      - name: Run Java Setup Script with Default Bash
+        working-directory: $HOME/.local/java
         run: |
-          brew install bash
-          NEW_BASH=$(brew --prefix bash)/bin/bash
-          echo "Using Bash version:"
-          $NEW_BASH --version
-          echo "NEW_BASH=$NEW_BASH" >> $GITHUB_ENV
-      - name: Run Java Setup Script
-        run: ${{ env.NEW_BASH }} ${{ matrix.script }}
+          /bin/bash ${{ matrix.script }}
