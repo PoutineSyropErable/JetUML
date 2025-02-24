@@ -197,9 +197,8 @@ get_url() {
 echo -e "\n🔍 Debugging: Looking for key '${OS_ARCH}' in JAVAFX_URLS\n"
 print_available_keys "JAVAFX_URLS"
 
-if [[ -v JAVAFX_URLS[$OS_ARCH] ]]; then
-	JAVAFX_URL=$(get_url "$OS_ARCH" "JAVAFX_URLS")
-else
+JAVAFX_URL=$(get_url "$OS_ARCH" "JAVAFX_URLS")
+if [ -z "$JAVAFX_URL" ]; then
 	echo "❌ Error: No JavaFX URL found for '${OS_ARCH}'."
 	exit 1
 fi
@@ -208,9 +207,8 @@ fi
 echo -e "\n🔍 Debugging: Looking for key '${OS_ARCH}' in JDK_URLS\n"
 print_available_keys "JDK_URLS"
 
-if [[ -v JDK_URLS[$OS_ARCH] ]]; then
-	JDK_URL=$(get_url "$OS_ARCH" "JDK_URLS")
-else
+JDK_URL=$(get_url "$OS_ARCH" "JDK_URLS")
+if [ -z "$JDK_URL" ]; then
 	echo "❌ Error: No JDK URL found for '${OS_ARCH}'."
 	exit 1
 fi

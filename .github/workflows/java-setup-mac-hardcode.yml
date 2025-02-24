@@ -36,6 +36,7 @@ jobs:
           echo "🔍 Default Shell: $SHELL"
           echo "🐚 Default Bash Version:"
           /bin/bash --version
+          echo ""
           echo "📂 Files in $HOME/.local/java:"
           ls -lah "$HOME/.local/java"
       - name: Run Java Setup Script with Default Bash
