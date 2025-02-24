@@ -139,6 +139,8 @@ echo ""
 
 # Download JavaFX (goes in ~/.local/java)
 JAVAFX_URL=${JAVAFX_URLS["${OS}_${ARCH}"]}
+
+printf "The javafx url: $JAVAFX_URL"
 if [[ -n "$JAVAFX_URL" ]]; then
 	FILE_NAME="${JAVAFX_URL##*/}"
 	FILE_PATH="$JAVA_DIR/$FILE_NAME"
@@ -164,6 +166,7 @@ else
 fi
 
 # Download OpenJDK (goes in ~/.local/java/java23-openjdk)
+printf "The jdk url: $JAVAFX_URL"
 JDK_URL=${JDK_URLS["${OS}_${ARCH}"]}
 if [[ -n "$JDK_URL" ]]; then
 	FILE_NAME="${JDK_URL##*/}"
