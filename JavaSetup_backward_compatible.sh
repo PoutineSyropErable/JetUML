@@ -143,11 +143,27 @@ OS_ARCH="${OS}_${ARCH}"
 
 # Function to print available keys in an associative array
 print_available_keys() {
-	local -n array=$1 # Use nameref to pass an associative array by reference
-	echo "Available keys in $2:"
-	for key in "${!array[@]}"; do
-		echo "  - $key → ${array[$key]}"
-	done
+	local array_name="$1" # Should be "JDK_URLS" or "JAVAFX_URLS"
+	local label="$1"      # A label for printing (for human-friendly output)
+
+	echo "Available keys in $label:"
+
+	case "$array_name" in
+	"JDK_URLS")
+		for i in "${!OS_ARCHS[@]}"; do
+			echo "  - ${OS_ARCHS[$i]} → ${JDK_URLS[$i]}"
+		done
+		;;
+	"JAVAFX_URLS")
+		for i in "${!OS_ARCHS[@]}"; do
+			echo "  - ${OS_ARCHS[$i]} → ${JAVAFX_URLS[$i]}"
+		done
+		;;
+	*)
+		echo "Error: Unknown array '$array_name'" >&2
+		return 1
+		;;
+	esac
 	echo ""
 }
 
@@ -179,7 +195,7 @@ get_url() {
 
 # Debugging: Check for JavaFX URL
 echo -e "\n🔍 Debugging: Looking for key '${OS_ARCH}' in JAVAFX_URLS\n"
-print_available_keys JAVAFX_URLS "JAVAFX_URLS"
+print_available_keys "JAVAFX_URLS"
 
 if [[ -v JAVAFX_URLS[$OS_ARCH] ]]; then
 	JAVAFX_URL=$(get_url "$OS_ARCH" "JAVAFX_URLS")
@@ -190,7 +206,7 @@ fi
 
 # Debugging: Check for JDK URL
 echo -e "\n🔍 Debugging: Looking for key '${OS_ARCH}' in JDK_URLS\n"
-print_available_keys JDK_URLS "JDK_URLS"
+print_available_keys "JDK_URLS"
 
 if [[ -v JDK_URLS[$OS_ARCH] ]]; then
 	JDK_URL=$(get_url "$OS_ARCH" "JDK_URLS")
