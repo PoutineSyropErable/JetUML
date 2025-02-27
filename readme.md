@@ -6,6 +6,7 @@ First start by cloning and cd-ing into the dir, then run the setup file.
 git clone https://github.com/PoutineSyropErable/JetUML ~/.local/java
 cd ~/.local/java
 ./JavaSetup.sh
+./junit_setup.sh
 ```
 
 ---
@@ -58,6 +59,36 @@ export PATH_TO_FX="$HOME/.local/java/javafx-sdk-23/lib"
 
 # Add JavaFX binaries to PATH (optional, but helps some setups)
 export PATH="$PATH_TO_FX:$PATH"
+```
+
+**Note that on mac, the java-23-openjdk will be somewhat weird, because it will download it in a slightly different format.
+The files won't be ./java-23-openjdk/bin, there will be other stuff like ./java-23-openjdk/something-version/Contents/Home/bin
+So, maybe change and move the files so that the content of .../Home is directly in there ./java-23-openjdk/, Idk figure it out**
+
+Then, you should also add classpath setup, so that junit can work in an easier way. (But you don't need junit for jetuml, this is just
+general java setup)
+
+Overall, here's what the whole segment:
+
+```bash
+JAVA_PATH="$HOME/.local/java"
+export JAVA_HOME="$JAVA_PATH/java-23-openjdk" #Helps in changing default java
+export PATH_TO_FX="$JAVA_PATH/javafx-sdk-23/lib" # Needed for javafx
+export PATH="$JAVA_PATH:$PATH"
+export PATH="$JAVA_HOME/bin:$PATH" # Change the java version you use to java23 I downloaded
+
+
+export JUNIT5_PATH="$JAVA_PATH/junit5"
+export JUNIT4_PATH="$JAVA_PATH/junit4"
+
+export CLASSPATH="$JUNIT5_PATH/junit-jupiter-api-5.11.3.jar:\
+$JUNIT5_PATH/junit-jupiter-engine-5.11.3.jar:\
+$JUNIT5_PATH/junit-jupiter-params-5.11.3.jar:\
+$JUNIT4_PATH/junit-4.13.2.jar"
+
+
+alias jetuml="JetUML"
+alias jetUML="JetUML"
 ```
 
 Then you need to source your shell. Here's different way ranked from best and hardest to braindead but it works.
