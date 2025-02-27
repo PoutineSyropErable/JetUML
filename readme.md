@@ -63,7 +63,9 @@ export PATH="$PATH_TO_FX:$PATH"
 
 **Note that on mac, the java-23-openjdk will be somewhat weird, because it will download it in a slightly different format.
 The files won't be ./java-23-openjdk/bin, there will be other stuff like ./java-23-openjdk/something-version/Contents/Home/bin
-So, maybe change and move the files so that the content of .../Home is directly in there ./java-23-openjdk/, Idk figure it out**
+So, maybe change and move the files so that the content of .../Home is directly in there ./java-23-openjdk/,
+Or change the Java_HOME, and export JAVA_HOME/bin (from your shell config, and maybe the JetUML Script)
+Idk figure it out**
 
 Then, you should also add classpath setup, so that junit can work in an easier way. (But you don't need junit for jetuml, this is just
 general java setup)
