@@ -6,27 +6,35 @@ First start by cloning and cd-ing into the dir, then run the setup file.
 git clone https://github.com/PoutineSyropErable/JetUML ~/.local/java
 cd ~/.local/java
 ./JavaSetup.sh
-./junit_setup.sh
+./junit_setup.sh # optional, if you want junit too. Useful if you want to go full java cli
+```
+
+Launch jetuml by doing
+
+```bash
+$HOME/.local/java/JetUML
 ```
 
 ---
 
 # Permanently adding the directory path of this project to your shell PATH Variable (To be able to execute a command)
 
-then to be able to just use the JetUML terminal command, you need to add ~/.local/java to the path permanently.
+Doing the full path everytime is quite annoying, so you want to be able to just do JetUML as if it was an actual executable/shell command.
+
+To do so, you need to add "~/.local/java" to the PATH environment variable. And you want to add it permanently, not just for current session.
 To do so, you must modify the rc file of your shell. (It's executed every startup)
 
 **Automatic way:**
 
 ```bash
 ./setupEnvVar.sh
+# It will add the correct export statement to the config file of your current shell.
+# But it will add both block at the end, so that's kinda ugly and unorganised. But if you don't regularly modify it, who cares.
+# It's your code and files.
 ```
 
 **Manual Way:**
-Depending on your shell (bash, zsh, fish), find it's (run config/RC) file
-
-If you are using a different shell, you are using something niche, and you definitely installed it and configured it yourself,
-So, you should know where the file is and how to do it yourself, or at least know how to ask ChatGPT how to do it.
+Depending on your shell (bash, zsh, fish), find it's rc (Run Config) file
 
 Here's the path to the shell rc files
 
@@ -36,13 +44,16 @@ Here's the path to the shell rc files
 ~/.bashrc
 ```
 
+- Note: If you are using a different shell, you are using something niche, and you definitely installed it and configured it yourself,
+  So, you should know where the file is and how to do it yourself, or at least know how to ask ChatGPT how to do it.
+
 Add to it:
 
 ```bash
 export PATH="$HOME/.local/java:$PATH"
 ```
 
-(^^ This is a shell command that will be executed at every shell startup)
+- (^^ This is a shell command that will be executed at every shell startup, adding ~/.local/java to the place where it searchs for programs)
 
 Optional, but should be done:
 You should also add these environment variable to your shell permanently by adding:
@@ -61,18 +72,25 @@ export PATH_TO_FX="$HOME/.local/java/javafx-sdk-23/lib"
 export PATH="$PATH_TO_FX:$PATH"
 ```
 
+That will make cli java easier. However, I don't think it's completely needed
+
 **Note that on mac, the java-23-openjdk will be somewhat weird, because it will download it in a slightly different format.
 The files won't be ./java-23-openjdk/bin, there will be other stuff like ./java-23-openjdk/something-version/Contents/Home/bin
 So, maybe change and move the files so that the content of .../Home is directly in there ./java-23-openjdk/,
 Or change the Java_HOME, and export JAVA_HOME/bin (from your shell config, and maybe the JetUML Script)
 Idk figure it out**
 
-Then, you should also add classpath setup, so that junit can work in an easier way. (But you don't need junit for jetuml, this is just
+Then, maybe, you should also add classpath setup, so that junit can work in an easier way. (But you don't need junit for jetuml, this is just
 general java setup)
 
 Overall, here's what the whole segment:
 
 ```bash
+# ─────────────────────────────────────────────────────
+# 🌎 🔧 1️⃣0️⃣ System Paths & Java + JUnit Setup
+# ─────────────────────────────────────────────────────
+
+
 JAVA_PATH="$HOME/.local/java"
 export JAVA_HOME="$JAVA_PATH/java-23-openjdk" #Helps in changing default java
 export PATH_TO_FX="$JAVA_PATH/javafx-sdk-23/lib" # Needed for javafx
