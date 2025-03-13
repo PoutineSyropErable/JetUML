@@ -21,10 +21,10 @@ JDK_URLS=(
 	"https://download.java.net/java/GA/jdk23.0.2/6da2a6609d6e406f85c491fcb119101b/7/GPL/openjdk-23.0.2_macos-aarch64_bin.tar.gz"
 )
 JAVAFX_URLS=(
-	"https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_linux-x64_bin-sdk.zip"
-	"https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_linux-aarch64_bin-sdk.zip"
-	"https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_osx-x64_bin-sdk.zip"
-	"https://download2.gluonhq.com/openjfx/23.0.2/openjfx-23.0.2_osx-aarch64_bin-sdk.zip"
+	"https://download2.gluonhq.com/openjfx/17.0.14/openjfx-17.0.14_linux-x64_bin-sdk.zip"
+	"https://download2.gluonhq.com/openjfx/17.0.14/openjfx-17.0.14_linux-aarch64_bin-sdk.zip"
+	"https://download2.gluonhq.com/openjfx/17.0.14/openjfx-17.0.14_osx-x64_bin-sdk.zip"
+	"https://download2.gluonhq.com/openjfx/17.0.14/openjfx-17.0.14_osx-aarch64_bin-sdk.zip"
 )
 
 #--------------------------------- Ensure programs are installed ----------------------
